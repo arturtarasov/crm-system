@@ -4,7 +4,8 @@
   "description": "fullstack app with Angular and Express",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index",
+    "server": "nodemon index"
   },
   "repository": {
     "type": "git",
@@ -19,5 +20,11 @@
   "bugs": {
     "url": "https://github.com/arturtarasov/crm-system/issues"
   },
-  "homepage": "https://github.com/arturtarasov/crm-system#readme"
+  "homepage": "https://github.com/arturtarasov/crm-system#readme",
+  "dependencies": {
+    "express": "^4.16.4"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.9"
+  }
 }
