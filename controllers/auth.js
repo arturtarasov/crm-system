@@ -2,11 +2,12 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const keys = require('../config/keys');
+const errorHandler = require('../utils/errorHandler');
 
 module.exports.login = async function (req, res) {
   const candidate = await User.findOne({ email: req.body.email });
   if (candidate) {
-    // Проверка пароля, пользовательсуществует
+    // Проверка пароля, пользователь существует
     const passwordResult = bcrypt.compareSync(req.body.password, candidate.password);
     if (passwordResult) {
       // Генерация токена, пароли совпали
@@ -55,6 +56,7 @@ module.exports.register = async function (req, res) {
       res.status(201).json(user);
     } catch (error) {
       // Обработать ошибку
+      errorHandler(res, error);
     }
   }
 }
