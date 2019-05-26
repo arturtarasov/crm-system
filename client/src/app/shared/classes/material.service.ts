@@ -14,4 +14,13 @@ export class MaterialService {
     static updateTextInputs() {
         M.updateTextFields();
     }
+    static initmodal(ref: ElementRef): MaterialInstance {
+        return M.Modal.init(ref.nativeElement);
+    }
+}
+
+export interface MaterialInstance {
+    open?(): void;
+    close?(): void;
+    destroy?(): void;
 }
