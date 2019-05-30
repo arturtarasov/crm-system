@@ -37,3 +37,21 @@ export interface OrderPosition {
     quantity: number;
     _id?: string;
 }
+
+export interface Filter {
+    start?: Date;
+    end?: Date;
+    order?: number;
+}
+
+export interface OverViewPage {
+    orders: OverViewPageItem;
+    gain: OverViewPageItem;
+}
+
+export interface OverViewPageItem {
+    percent: number;
+    compare: number;
+    yesterday: number;
+    isHigher:   boolean;
+}
