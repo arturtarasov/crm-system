@@ -27,7 +27,11 @@ export class MaterialService {
             format: 'dd.mm.yyyy',
             showClearBtn: true,
             onClose
-        })
+        });
+    }
+
+    static initTapTarget(ref: ElementRef): MaterialDatepicker {
+      return M.TapTarget.init(ref.nativeElement);
     }
 }
 

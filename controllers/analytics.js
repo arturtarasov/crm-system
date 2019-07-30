@@ -4,14 +4,13 @@ const Order = require('../models/Order');
 const errorHandler = require('../utils/errorHandler');
 
 module.exports.overview = async function (req, res) {
-    console.log('32131231232');
     try {
         const allOrders = await Order.find({
             user: req.user.id
         }).sort({data: 1});
         const ordersMap = getOrdersMap(allOrders);
 
-        const yerstadayOrders = ordersMap[moment().add(-1, 'd')].format('DD.MM.YYYY') || [];
+        const yerstadayOrders = ordersMap[moment().add(-1, 'd').format('DD.MM.YYYY')] || [];
         
         // Количество заказов вчера
         const yerstadayOrdersNumber = yerstadayOrders.length;
@@ -63,14 +62,36 @@ module.exports.overview = async function (req, res) {
             }
         });
     } catch (e) {
+        console.log('e', e);
         errorHandler(res, e);
     }
 }
 
-module.exports.analytics = function (req, res) {
-    res.status(200).json({
-        data: true
-    });
+module.exports.analytics = async function (req, res) {
+    try {
+        const allOrders = await Order.find({user: req.user.id}).sort({date: 1});
+        const ordersMap = getOrdersMap(allOrders);
+        const average = +(calculatePrice(allOrders) / Object.keys(ordersMap).length).toFixed(2);
+
+        const chart = Object.keys(ordersMap).map(label => {
+            // label == 05.05.2018
+            const gain = calculatePrice(ordersMap[label]);
+            const order = ordersMap[label].length;
+            return {
+                label,
+                gain,
+                order
+            }
+        });
+
+        res.status(200).json({
+            average,
+            chart
+        });
+
+    } catch (e) {
+        errorHandler(res, e);
+    }
 }
 
 function getOrdersMap(orders = []) {
