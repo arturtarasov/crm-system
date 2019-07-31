@@ -20,8 +20,8 @@ export class OrderPageComponent implements OnInit, OnDestroy, AfterViewInit {
   pending = false;
   oSub: Subscription;
   constructor(
-    private router: Router, 
-    private order: OrderService, 
+    private router: Router,
+    public order: OrderService,
     private ordersService: OrdersService) { }
 
   ngOnInit() {
@@ -53,7 +53,7 @@ export class OrderPageComponent implements OnInit, OnDestroy, AfterViewInit {
     const order: Order = {
       list: this.order.list.map(item => {
         delete item._id;
-        return item
+        return item;
       })
     };
     this.oSub = this.ordersService.create(order).subscribe(
@@ -61,7 +61,7 @@ export class OrderPageComponent implements OnInit, OnDestroy, AfterViewInit {
         MaterialService.toast(`Заказ №${newOrder.order} был добавлен`);
         this.order.clear();
       },
-      error => { MaterialService.toast(error.error.message)},
+      error => { MaterialService.toast(error.error.message); },
       () => {
         this.modal.close();
         this.pending = false;
